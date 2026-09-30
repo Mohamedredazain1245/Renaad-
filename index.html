@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>هدية لريناد</title>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2a0f2e;--ink:#fff1f4;--h:340;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a0f2e}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:radial-gradient(circle at 50% 35%,#5a1f54,var(--bg) 70%);color:var(--ink);font-family:'Cairo',Tahoma,sans-serif;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden}
+h1{font-family:'Lalezar','Cairo',sans-serif;font-weight:400;font-size:clamp(2.2rem,8vw,3.6rem);margin:0 0 4px}
+#count{opacity:.85;margin:0 0 8px;min-height:1.6em}
+#stage{height:330px;display:flex;align-items:flex-end;justify-content:center;width:100%}
+.gift{--s:250px;position:relative;width:var(--s);height:var(--s);border:0;background:none;padding:0;cursor:pointer;animation:pop .45s ease}
+.gift:focus-visible{outline:3px solid #fff;outline-offset:6px}
+.body{position:absolute;bottom:0;left:0;right:0;height:78%;background:hsl(var(--h) 72% 56%);border-radius:0 0 10px 10px;overflow:hidden}
+.body::before,.lid::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:18%;margin-left:-9%;background:#fff3c4}
+.lid{position:absolute;top:0;left:-5%;right:-5%;height:26%;background:hsl(var(--h) 72% 42%);border-radius:10px;transition:transform .55s ease,opacity .55s ease;overflow:visible}
+.lid::before{border-radius:0}
+.bow{position:absolute;top:-.75em;left:50%;transform:translateX(-50%);font-size:calc(var(--s)*.26);line-height:1;z-index:2}
+.gift.opening .lid{transform:translateY(-130%) rotate(-16deg);opacity:0}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:none;opacity:1}}
+#msg{font-size:1.25rem;margin:14px 0 10px;min-height:2em}
+#dots{display:flex;gap:6px;justify-content:center}
+#dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25)}
+#dots i.on{background:#ff8fab}
+#final{display:none;flex-direction:column;align-items:center;gap:14px}
+#final.show{display:flex;animation:pop .6s ease}
+.visa{width:min(320px,86vw);aspect-ratio:1.586;border-radius:18px;background:linear-gradient(135deg,#1a1f71,#3b4bd8 60%,#7aa0ff);padding:18px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;direction:ltr;box-shadow:0 14px 30px rgba(0,0,0,.45)}
+.chip{width:46px;height:34px;border-radius:6px;background:linear-gradient(135deg,#ffe38a,#c99a2e)}
+.num{font-size:1.25rem;letter-spacing:3px}
+.brand{align-self:flex-end;font-size:2rem;font-style:italic;font-weight:800;letter-spacing:1px}
+#final h2{font-size:2.4rem;line-height:1.3;font-family:'Lalezar','Cairo',sans-serif;font-weight:400;margin:0}
+#again{font:inherit;font-weight:800;background:#ff8fab;color:#2a0f2e;border:0;border-radius:999px;padding:10px 26px;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.gift,#final.show{animation:none}.lid{transition:none}}
+footer{position:fixed;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-family:'Lalezar','Cairo',sans-serif;font-size:1.2rem;opacity:.85}
+</style>
+</head>
+<body>
+<h1>هدية لريناد</h1>
+<div id="stage"><button class="gift" id="gift" aria-label="افتحي الهدية"><span class="body"></span><span class="lid"><span class="bow">🎀</span></span></button></div>
+<p id="msg"></p>
+<div id="final">
+  <h2 class="wish">روحي نامي بقا 😴</h2>
+  <button id="again">من الأول</button>
+</div>
+<footer>مع تحيات محمد القاضي</footer>
+<script>
+var N=10,lvl=1,busy=false;
+var msgs=['افتحي الهدية دي','دي مش الهدية... كملي','لسه مخلصناش','استني شوية','لا دي كمان مش هي','كملي كملي','أكيد الجاية هي 😂','والله المرة دي','ياه لسه؟','آخر واحدة... ولا لأ؟'];
+var g=document.getElementById('gift');
+function render(){
+ g.style.setProperty('--s',(250-(lvl-1)*20)+'px');
+ document.documentElement.style.setProperty('--h',(330+lvl*31)%360);
+ document.getElementById('msg').textContent=msgs[lvl-1];
+ g.classList.remove('opening');
+ g.style.animation='none';void g.offsetWidth;g.style.animation='';
+}
+g.onclick=function(){
+ if(busy)return;busy=true;g.classList.add('opening');
+ setTimeout(function(){
+  if(lvl<N){lvl++;render();busy=false}
+  else{
+   document.getElementById('stage').style.display='none';
+   document.getElementById('msg').style.display='none';
+   document.getElementById('final').classList.add('show');
+  }
+ },600);
+};
+document.getElementById('again').onclick=function(){
+ lvl=1;busy=false;
+ document.getElementById('final').classList.remove('show');
+ document.getElementById('stage').style.display='';
+ document.getElementById('msg').style.display='';
+ render();
+};
+render();
+</script>
+</body>
+</html>
